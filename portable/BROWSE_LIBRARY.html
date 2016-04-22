@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# books: http://ogp.me/ns/books#">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MEMORY OF THE WORLD</title>
+    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/style.css" />
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand visible-xs">
+            <img id="home" class="home-link" alt="motw home" src="static/motw.ico" />
+          </a>
+          <a href="/" class="navbar-text home-link home-text hidden-xs">LIBRARY</a>
+          <p class="navbar-text" id="num-books"></p>
+        </div>
+        <div id="external-link" class="navbar-right hidden-xs widget-title"></div>
+      </div>
+    </nav>
+
+    <nav class="navbar navbar-search">
+      <div class="container">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar">
+
+          <form id="search-form" class="navbar-form">
+
+            <div class="form-group">
+              <select id="property" class="form-control input-sm"></select>
+            </div>
+
+            <div class="form-group">
+              <input  id="text" type="text" class="form-control input-sm" placeholder="type here...">
+            </div>
+            
+            <div class="form-group">
+              <select id="dropdown" class="form-control input-sm"></select>
+            </div>
+
+            <button id="search" type="submit" class="btn btn-default btn-sm pull-right">SEARCH</button>
+          </form>
+          
+        </div>
+      </div>
+    </nav>
+
+    <div id="content" class="container"></div>
+    <div id="load-more">
+      <div class="container">
+        <input class="btn btn-default btn-lg btn-block hidden" type="button" value="LOAD MORE">
+      </div>
+    </div>
+    <div id="modal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="book-modal-label"></div>
+    <div class="loading-img"></div>
+    
+  </body>
+
+  <script type="text/x-template" id="external-link-tmpl">
+    <a href="<%= href %>" target="_blank"><%= text %></a>
+  </script>
+  
+  <script type="text/x-template" id="search-properties-tmpl">
+    <% for( var i = 0; i < properties_order.length; i++ ) { %>
+       <option value="<%= properties_order[i] %>"><%= properties[properties_order[i]].text %></option>
+       <% } %>
+  </script>
+
+  <script type="text/x-template" id="book-content-tmpl">
+    <div class="col col-sm-4 col-md-3">
+      <div class="cover" rel='<%= book.librarian %>'>
+
+        <a href="#" class="more_about" rel='<%= book.uuid %>' title="about this book">
+          <img class="cover-grid" src="<%= book.cover_url %>" />
+          <div class="cover-highlight">
+            <span class="hmsg">Shared by <%= book.librarian %></span>
+          </div>
+        </a>
+
+        <h2>
+          <a href="#" class="more_about" rel='<%= book.uuid %>'
+             title="about this book"><%= book.title %></a>
+
+            <div id="authors">
+            <% for( var i = 0; i < book.authors.length; i++ ) { %>
+                <% var author = book.authors[i]; var author_s = author.replace("'", " "); if (i < book.authors.length -1){ var author = book.authors[i] + ", "};  %>
+                <a class="author" data-authors="<%- author_s %>" href="#" data-toggle="tooltip" data-placement="bottom" title="show only books by <%- author_s %>"><%- author %></a>
+                <% } %>
+            </div>
+        </h2>
+        
+        <% if (book.formats[0] != '0') { %>
+        <span class="download">Download:
+          <% for( var i = 0; i < book.formats.length; i++ ) { %>
+             <% var format = book.formats[i] %>
+             <a href="<%= book.prefix_url + book.format_metadata[format].file_path %>"><%= format.toUpperCase() %></a>
+             <% } %>
+        </span>
+        <% } %>
+        
+        <% if (localCalibre.showImportLinks(book.library_uuid)) { %>
+        <a href="http://127.0.0.1:56665/?urls=<%= metadata_urls %>" class="import-to-calibre" data-toggle="tooltip" data-placement="bottom" title="import book directly to calibre" target="import">
+          <img class="lodestone" src="static/lodestone.png" />
+        </a>
+        <% } %>        
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="book-modal-attr-title-tmpl">
+    <span class="title"><%= book.title %>
+      <a href="/b/<%= book.uuid %>" class="permalink">
+        <% if (!is_this_portable()) { %>
+        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+        <% } %>
+      </a>
+    </span>
+  </script>
+
+  <script type="text/x-template" id="book-downloads-tmpl">
+    <% for( var i = 0; i < book.formats.length; i++ ) { %>
+       <% var format = book.formats[i] %>
+       <a href="<%= book.prefix_url + book.format_metadata[format].file_path %>" class="black-link">
+         <%= format.toUpperCase() %>
+       </a>
+       <% } %>
+  </script>
+
+  <script type="text/x-template" id="book-modal-tmpl">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"><%= book.title %></h4>
+        </div>
+        <div class="modal-body">
+          <div id="book-modal" class="book-modal" title="<%= book.title %>">
+
+            <div class="lodestone_modal hidden-xs">
+              <img class="cover-modal" src="<%= book.cover_url %>" />
+              <% if (localCalibre.showImportLinks(book.library_uuid)) { %>
+              <a href="http://127.0.0.1:56665/?urls=<%= metadata_urls %>" class="import-to-calibre" data-toggle="tooltip" data-placement="bottom" title="import book directly to calibre" target="import">
+                <img src="static/lodestone_modal.png" />
+              </a>
+              <% } %>
+            </div>
+
+            <% for( var i = 0; i < properties.length; i++ ) { %>
+               <% var prop = properties[i]; %>
+               <% if (prop.if_display(book)) { %>
+               <div class="property">
+                 <span class="attr"><%= prop.name %>:</span>
+                 <span><%= prop.render(book) %></span>
+               </div>
+               <% } %>
+               <% } %>
+
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <a href="<%= book.prefix_url %>" class="btn btn-default hidden-xs pull-left" role="button" target="_blank"><%= book.librarian.toUpperCase() %>'S LIBRARY</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+        </div>
+        
+      </div>
+    </div>
+  </script>
+
+
+
+  <script type="text/x-template" id="import-modal-tmpl">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Importing to calibre</h4>
+        </div>
+        <div class="modal-body">
+          <p>Check [let's share books] plugin in your Calibre for downloads...</p>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="application/javascript" src="static/underscore-min.js"></script>
+  <script type="application/javascript" src="static/jquery-1.10.2.min.js"></script>
+  <script type="application/javascript" src="static/jquery-migrate-1.2.1.js"></script>
+  <script type="application/javascript" src="static/jquery.ba-bbq.min.js"></script>
+  <script type="application/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+  <script type="application/javascript" src="static/typeahead.bundle.min.js"></script>
+  <script type="application/javascript" src="static/hammer.min.js"></script>
+
+  <script type="application/javascript" src="static/json2.js"></script>
+  <script type="application/javascript" src="static/data.js"></script>
+  <script type="application/javascript" src="static/portable.js"></script>
+  <script type="application/javascript" src="static/common.js"></script>
+  <script type="application/javascript" src="static/local_calibre.js"></script>
+  <script type="application/javascript" src="static/libraries.js"></script>
+</html>

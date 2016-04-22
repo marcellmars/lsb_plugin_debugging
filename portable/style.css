@@ -1,0 +1,486 @@
+/* -- General */
+
+body {
+    background: rgb(255, 255, 255);
+    font-family: 'BitstreamVeraSansMono', Consolas, monospace;
+    padding-top: 32px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.black-link {
+    color: black !important;
+    text-decoration: none;
+}
+
+.black-link:hover {
+    color: red !important;
+    text-decoration: none;
+}
+
+.black-link:visited {
+    text-decoration: none;
+}
+
+/* img { */
+/*     position: absolute; */
+/*     background: url('/images/loading.gif') no repeat; */
+/*     background-position: top center; */
+/*     background-size: cover; */
+/* } */
+
+h2 {
+    font: bold 18px/24px 'BitstreamVeraSansMono', Consolas, monospace;
+    //font: bold 16px/22px Helvetica, Sans-Serif; 
+    color: white; 
+    position: absolute; 
+    top: -6px; 
+    left: 0; 
+    width: 100%; 
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.9);
+    padding: 2px; 
+}
+
+h2 span {
+    //font: bold 12px/16px Helvetica, Sans-Serif; 
+    font: bold 18px/24px 'BitstreamVeraSansMono', Consolas, monospace;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+.navbar .navbar-brand{
+    margin-right: 10px;
+}
+
+.navbar .navbar-brand img {
+    position: absolute;
+}
+
+.navbar-toggle {
+    background-color: #C9302C;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+.home-text {
+    background-color: #ff0000;
+    color: white !important;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.home-text:hover {
+    background-color: #cc0000;
+}
+
+/* --decrease size of the top navbar */
+
+.navbar-fixed-top {min-height:28px !important;}
+
+.navbar-fixed-top .navbar-nav > li > a, .navbar-fixed-top .navbar-brand {
+    padding-top: 4px !important; 
+    padding-bottom: 0 !important;
+    height: 28px;
+}
+
+.navbar-fixed-top .navbar-text {
+    margin-top: 4px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}
+
+.navbar-form {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.navbar-collapse {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.navbar-right {
+    margin-right: 0px;
+}
+
+/* toolbar elements for tablet */
+
+@media (min-width: 768px) {
+
+    #text {
+        width: 357px;
+    }
+
+    .navbar-form {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .navbar-collapse {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+}
+
+/* toolbar elements for desktop */
+
+@media (min-width: 992px) {
+
+    #text {
+        width: 463px;
+    }
+
+    #property {
+        width: 195px;
+        max-width: 195px;
+    }
+
+    #dropdown {
+        width: 195px;
+        max-width: 195px;
+    }
+
+    .navbar-form {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .navbar-collapse {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+}
+
+
+/* -- Book grid view */
+
+.col {
+    padding: 2px;
+}
+
+.cover {
+    display: block;
+    position: relative;
+    //width: 241px;
+    height: 360px;
+    overflow: hidden;
+    //border-right: 2px solid rgb(224, 224, 224);
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.cover .cover-grid {
+    min-height: 359px;
+    max-height: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+.download {
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+    //font: bold 14px/20px Helvetica, Sans-Serif;
+    font: bold 16px/22px 'BitstreamVeraSansMono', Consolas, monospace;
+    color:white;
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.9);
+    width: 100%;
+}
+
+.lodestone {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.lodestone_modal {
+    position: relative;
+    float: right;
+}
+
+.lodestone_modal .import-to-calibre {
+    position: absolute;
+}
+
+.more_about {
+    text-decoration: none;
+}
+
+.tooltip {
+    //font: bold 12px/16px Helvetica, Sans-Serif; 
+    font: bold 14px/18px 'BitstreamVeraSansMono', Consolas, monospace;
+}
+
+.attr {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+#authors {
+    //font: bold 12px/16px Helvetica, Sans-Serif; 
+    font: bold 14px/18px 'BitstreamVeraSansMono', Consolas, monospace;
+}
+
+/* -- footer */
+
+#load-more {
+    text-align: center;
+    margin: 7px 0px 7px 0px;
+}
+
+/* web app specific; e.g. not in portable */
+
+.cover-highlight {
+    content: " ";
+    z-index: 10;
+    display: none;
+    position: absolute;
+    width: 238px;
+    height: 360px;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.cover-highlight .hmsg {
+    font-family: 'BitstreamVeraSansMono',Consolas,monospace;
+    font-size: 1em;
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 120px; left: 0; bottom: 0; right: 0;
+}
+
+.cover-highlight-this {
+    content: " ";
+    z-index: 10;
+    display: none;
+    position: absolute;
+    width: 238px;
+    height: 360px;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.0);
+}
+
+.cover-highlight-this .hmsg {
+    font-family: 'BitstreamVeraSansMono',Consolas,monospace;
+    font-size: 1em;
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 120px; left: 0; bottom: 0; right: 0;
+}
+
+.cover-highlight-this .hmsg span {
+    background-color: #000000;
+}
+
+/* -- Modal book window */
+
+body.loading {
+    overflow: hidden;
+}
+
+body.loading .modal {
+    display: block;
+}
+
+.cover-modal {
+    position: relative;
+    width: 180px;
+    float: right;
+    margin: 0px;
+    max-height: 300px;
+}
+
+.only_lib a {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+/* -- Book permalink page */
+
+#book-permalink {
+    margin-top: 15px;
+}
+
+#book-permalink .cover-permalink {
+    max-width: 280px;
+}
+
+#book-permalink .property {
+    margin-bottom: 10px;
+}
+
+/* -- typeahead */
+
+.typeahead,
+.tt-query, /* UPDATE: newer versions use tt-input instead of tt-query */
+.tt-hint {
+    width: 100%;
+    height: 30px;
+    padding: 8px 12px;
+    border: 2px solid #ccc;
+    outline: none;
+}
+
+.tt-hint {
+    color: #999;
+}
+
+.tt-menu { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
+    width: 100%;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.twitter-typeahead {
+    width: 100%;
+}
+
+/* -- pure css logotype */
+
+.widget-title {
+    height: 0;
+    border: .6875em solid red;
+    border-right-color: transparent;
+    float: right;
+    font-size: 1em;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+.widget-title:hover {
+    height: 0;
+    border: .6875em solid #cc0000;
+    border-right-color: transparent;
+    float: right;
+    font-size: 1em;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+.widget-title a
+{
+    float: left;
+    font-size: 1em;
+    line-height: 1.5em;
+    letter-spacing: 1px;
+    margin: -.6875em 0 0;
+    padding: 0 .5em 0 0;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.btn {
+    border: 0px solid;
+}
+
+#content .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.modal-header {
+    color: #FFF;
+    background-color: #F00;
+}
+
+.modal-body {
+    min-height: 300px;
+}
+
+.modal .close {
+    color: white;
+    opacity: 0.7;
+}
+
+.modal .modal-footer {
+    border-top: none;
+}
+
+.modal .permalink span {
+    color: black;
+}
+
+.modal .property {
+    margin-bottom: 10px;
+}
+
+.modal .permalink span:hover {
+    color: red;
+}
+
+/* -- loading */
+
+.loading-img {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba(224, 224, 224, 0.4) 
+    url('/images/loading.gif') 
+    50% 50% 
+    no-repeat;
+}
+
+body.loading {
+    overflow: hidden;
+}
+
+body.loading .loading-img {
+    display: block;
+}

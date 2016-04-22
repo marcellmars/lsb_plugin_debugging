@@ -1,0 +1,17 @@
+prepare for release:
+ -  disable debugging (main.py, ui.py, get_metadata.py):
+    -> logger = get_logger('letssharebooks', disabled=True)
+ -  change version in __init__.py:
+    -> version = (2, 0, x)
+ - change version in _version
+ - change version in favicon.html
+ - remove/add letssharebooks_calibre.zip in calibreletssharebooks/
+
+
+dirty notes:
+### this should tunnel plain text rsync protocol through ssh
+
+ssh -N -o ExitOnForwardFailure=yes -o ServerAliveINterval=60 -o TCPKeepAlive=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -L 8873:rsync.memoryoftheworld.org:8733 tunnel@memoryoftheworld.org -p 722 -v 
+
+### then rsync needs to use localhost port which get it relayed to server via ssh tunnel
+rsync -avhtuW --progress ../mock_calibre_library/ rsync://midnightnotes@localhost:8873/midnightnotes/
